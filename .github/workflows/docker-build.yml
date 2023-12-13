@@ -1,15 +1,28 @@
 name: Build and Push Docker Image
 
 on:
-  push
+  push:
+    branches:
+      - main
 
 jobs:
-  build_and_publish:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: action/checkout@v3
-      - name: Build and push the image
-        run: |
-          docker login --username Makocho1 --password ${{ secrets.DOCKER_HUB_TOKEN }} ghcr.in
-          docker build . --tag ghcr.io/Makocho1/LibraryAPI:latest
-          docker push ghcr.io/Makocho1/LibraryAPI:latest
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0
+
+    - name: Build and Publish Docker Image
+      run: |
+        docker build -t makocho/LibraryAPI:latest .
+        docker login -u ${{ secrets.Makocho1 }} -p ${{ secrets.DOCKER_HUB_TOKEN }}
+        docker push makocho/LibraryAPI:latest
+      env:
+        DOCKER_BUILDKIT: 1
+        DOCKER_CLI_ASACTIONS: 1
