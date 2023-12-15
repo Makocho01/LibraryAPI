@@ -11,12 +11,18 @@ jobs:
 
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Set up .NET Core
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0
+
+      #  name: Build and Publish Docker Image
+      #run: |
+      #  docker build -t your-dockerhub-username/your-app-name:latest .
+      #  docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_TOKEN }}
+      #  docker push your-dockerhub-username/your-app-name:latest
 
     - name: Build and Publish Docker Image
       run: |
