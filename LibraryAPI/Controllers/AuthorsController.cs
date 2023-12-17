@@ -49,7 +49,7 @@ namespace LibraryAPI.Controllers
         }
 
 
-        [HttpPut("{id}")] //put = edit
+        [HttpPut("{id}")] 
         public IActionResult EditBook([FromRoute] Guid id, AuthorDto author)
         {
             var originalAuthor = _dbContext.Authors.FirstOrDefault(r => r.Id == id);
@@ -67,7 +67,7 @@ namespace LibraryAPI.Controllers
         }
 
 
-        // delete id author
+        
         [HttpDelete("{id}")]
         public IActionResult DeleteAuthor([FromRoute] Guid id)
         {
