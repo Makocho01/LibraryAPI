@@ -1,7 +1,5 @@
 name: Build and Push Docker Image
 
-runs:
-  using: 'node16'
 
 on:
   push:
@@ -16,12 +14,7 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v3
 
-      #  name: Build and Publish Docker Image
-      #run: |
-      #  docker build -t your-dockerhub-username/your-app-name:latest .
-      #  docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_TOKEN }}
-      #  docker push your-dockerhub-username/your-app-name:latest
-
+     
     - name: Build and Publish Docker Image
       run: |
         docker build -t makocho/LibraryAPI:latest .
