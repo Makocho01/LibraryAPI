@@ -19,4 +19,4 @@ jobs:
       run: |
         docker build -t makocho/libraryapi:latest .
         docker login -u ${{ secrets.Makocho1 }} -p ${{ secrets.DOCKER_HUB_TOKEN }}
-        docker push makocho/LibraryAPI:latest
+        docker push makocho/libraryapi:latest
