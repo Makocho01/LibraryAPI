@@ -17,6 +17,6 @@ jobs:
      
     - name: Build and Publish Docker Image
       run: |
-        docker build -t makocho/LibraryAPI:latest .
+        docker build -t makocho/libraryapi:latest .
         docker login -u ${{ secrets.Makocho1 }} -p ${{ secrets.DOCKER_HUB_TOKEN }}
         docker push makocho/LibraryAPI:latest
