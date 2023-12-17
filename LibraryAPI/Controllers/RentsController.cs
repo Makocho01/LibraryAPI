@@ -1,6 +1,7 @@
 ﻿using LibraryAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 
 namespace LibraryAPI.Controllers
@@ -20,13 +21,24 @@ namespace LibraryAPI.Controllers
         [HttpGet]
         public IActionResult GetRents()
         {
-            return Ok(_dbContext.Rents.ToList());
+            var rents = _dbContext.Rents
+                .Include(x => x.Member)
+                .Include(x => x.Books)
+                .Include(x => x.Employee)
+                .ToList();
+
+            return Ok(rents);
         }
 
         [HttpGet("{id}")]
         public IActionResult GetRent([FromRoute] Guid id)
         {
-            var rent = _dbContext.Rents.FirstOrDefault(r => r.Id == id);
+            var rent = _dbContext.Rents
+                .Include(x => x.Member)
+                .Include(x => x.Books)
+                .Include(x => x.Employee)
+                .FirstOrDefault(r => r.Id == id);
+
             if (rent == null)
             {
                 return NotFound();

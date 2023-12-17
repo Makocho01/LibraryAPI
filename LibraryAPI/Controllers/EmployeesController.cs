@@ -14,13 +14,11 @@ namespace LibraryAPI.Controllers
     public class EmployeesController : Controller
     {
         private readonly AppDbContext _dbContext;
-        private readonly IConfiguration _configuration;
         private readonly IPasswordHasher<Employee> _passwordHasher;
 
-        public EmployeesController(AppDbContext dbContext, IConfiguration configuration, IPasswordHasher<Employee> passwordHasher)
+        public EmployeesController(AppDbContext dbContext, IPasswordHasher<Employee> passwordHasher)
         {
             _dbContext = dbContext;
-            _configuration = configuration;
             _passwordHasher = passwordHasher;
         }
 

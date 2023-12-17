@@ -1,0 +1,10 @@
+przyslosc
+-logowanie za pomoca tokena ( dlatego szare pakiety)
+
+wspomnij o InMemoryDataBase
+
+czym jest swagger i pokaz ze dzialaja zapytania
+
+
+obejrzyj ten filmik z tym typem od tego yml bo on chyba inaczej ten plik zrobil
+zrobił zmien to

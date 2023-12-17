@@ -1,6 +1,7 @@
 ﻿using LibraryAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace LibraryAPI.Controllers
 {
@@ -18,14 +19,25 @@ namespace LibraryAPI.Controllers
         [HttpGet]
         public IActionResult GetBooks()
         {
-            return Ok(_dbContext.Books.ToList());
+            var books = _dbContext.Books
+                .Include(x => x.Genres)
+                .Include(x => x.Authors)
+                .Include(x => x.PublishingHouse)
+                .ToList();
+
+            return Ok(books);
         }
 
         // get id book
         [HttpGet("{id}")]
         public IActionResult GetBook([FromRoute] Guid id)
         {
-            var book = _dbContext.Books.FirstOrDefault(b => b.Id == id);
+            var book = _dbContext.Books
+                .Include(x => x.Genres)
+                .Include(x => x.Authors)
+                .Include(x => x.PublishingHouse)
+                .FirstOrDefault(b => b.Id == id);
+
             if (book == null)
             {
                 return NotFound();

@@ -3,7 +3,7 @@ name: Build and Push Docker Image
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   build:
@@ -11,18 +11,10 @@ jobs:
 
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v2
-
-    - name: Set up .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 5.0
+      uses: actions/checkout@v3
 
     - name: Build and Publish Docker Image
       run: |
         docker build -t makocho/LibraryAPI:latest .
         docker login -u ${{ secrets.Makocho1 }} -p ${{ secrets.DOCKER_HUB_TOKEN }}
         docker push makocho/LibraryAPI:latest
-      env:
-        DOCKER_BUILDKIT: 1
-        DOCKER_CLI_ASACTIONS: 1

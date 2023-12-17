@@ -1,5 +1,6 @@
 ﻿using LibraryAPI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace LibraryAPI.Controllers
 {
@@ -19,13 +20,20 @@ namespace LibraryAPI.Controllers
         [HttpGet]
         public IActionResult GetMembers() 
         {
-            return Ok(_dbContext.Members.ToList());
+            var members = _dbContext.Members
+                .Include(x => x.Rents)
+                .ToList();
+
+            return Ok(members);
         }
 
         [HttpGet("{id}")]
         public IActionResult GetMember([FromRoute] Guid id)
         {
-            var member = _dbContext.Members.FirstOrDefault(m => m.Id == id);
+            var member = _dbContext.Members
+                .Include(x => x.Rents)
+                .FirstOrDefault(m => m.Id == id);
+
             if (member == null)
             {
                 return NotFound();

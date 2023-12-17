@@ -6,6 +6,9 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using Contentful.AspNetCore;
+using LibraryAPI.DbInitializer;
+using Microsoft.OpenApi.Validations;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,7 +30,10 @@ builder.Services.AddIdentity<Employee, IdentityRole>()
 
 builder.Services.AddContentful(builder.Configuration);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
@@ -47,6 +53,16 @@ if (app.Environment.IsDevelopment())
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Your API V1");
     });
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var dbContext = services.GetRequiredService<AppDbContext>();
+    var passwordHasher = services.GetRequiredService<IPasswordHasher<Employee>>();
+
+    DbInitializer.Initialize(dbContext, passwordHasher);
 }
 
 app.UseHttpsRedirection();
