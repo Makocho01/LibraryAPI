@@ -45,6 +45,10 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
